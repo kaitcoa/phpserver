@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php 
+use Kait\Server\PHPServer\Server; 
+use Kait\Server\PHPServer\Request;
+use Kait\Server\PHPServer\Response;
+require 'vendor/autoload.php';
+array_shift( $argv );
+
+if ( empty( $argv ) )
+{
+	$port = 80;
+} else {
+	$port = array_shift( $argv );
+}
+$server = new Server( '127.0.0.1', $port );
+// start to listen
+$server->listen( function( Request $request ) 
+{
+	echo $request->method() . ' ' . $request->uri() . "\n";
+	
+	return new Response( '<pre>'.print_r( $request, true ).'</pre>' );
+});
